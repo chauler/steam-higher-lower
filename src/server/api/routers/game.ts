@@ -1,6 +1,8 @@
 import { z } from "zod";
 import { createTRPCRouter, protectedProcedure, publicProcedure } from "../trpc";
 import { db } from "@/server/db";
+import { notInArray, sql } from "drizzle-orm";
+import { games } from "@/server/db/schema";
 
 export interface GameDataType {
   name: string;
@@ -45,5 +47,25 @@ export const gameRouter = createTRPCRouter({
         playerCount: playerCount.response.player_count,
         image: gameInfo[input.appid]?.data.header_image,
       } as GameDataType;
+    }),
+  getGame: publicProcedure
+    .input(z.number().array().optional())
+    .query(async ({ input }) => {
+      let game;
+      if (input) {
+        game = await db.query.games.findFirst({
+          where: (game, { notInArray }) => notInArray(game.appid, input),
+        });
+      } else {
+        game = await db
+          .select()
+          .from(games)
+          .orderBy(sql`RANDOM()`)
+          .limit(1);
+      }
+      if (Array.isArray(game)) {
+        return game[0]!;
+      }
+      return game!;
     }),
 });
