@@ -120,7 +120,7 @@ export const verificationTokens = createTable(
 
 export const games = createTable("game", {
   appid: integer("appid", { mode: "number" }).notNull().primaryKey(),
-  name: text("name", { length: 255 }),
+  name: text("name", { length: 255 }).notNull(),
   image: text("image"),
   playerCount: integer("playerCount", { mode: "number" }).notNull(),
 });
