@@ -1,8 +1,10 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Game from "./Game";
 import { api } from "@/trpc/react";
+import type { Session } from "next-auth";
+import { skipToken } from "@tanstack/react-query";
 
 export type GameData = {
   name: string;
@@ -11,18 +13,20 @@ export type GameData = {
   playerCount: number;
 };
 
-export default function GameManager() {
+export default function GameManager({ session }: { session: Session | null }) {
+  const postNewScore = api.score.postScore.useMutation();
+  const utils = api.useUtils();
   async function HandleClick(id: number) {
     setSelected(true);
-    setGameWin(
-      () =>
-        id ===
-        [game1.data, game2.data].reduce((prev, current) => {
-          return prev && prev.playerCount > (current?.playerCount ?? 0)
-            ? prev
-            : current;
-        })?.appid,
-    );
+    const win =
+      id ===
+      [game1.data, game2.data].reduce((prev, current) => {
+        return prev && prev.playerCount > (current?.playerCount ?? 0)
+          ? prev
+          : current;
+      })?.appid;
+    setGameWin(win);
+    setStreak((streak) => (win ? streak + 1 : 0));
   }
 
   async function Refresh() {
@@ -31,15 +35,39 @@ export default function GameManager() {
     if (game1.data?.appid && game2.data?.appid) {
       gamesToAdd = [game1.data.appid, game2.data.appid];
     }
-    setPrevGames([...prevGames, ...gamesToAdd]);
+    setPrevGames(
+      prevGames.length < 20 ? [...prevGames, ...gamesToAdd] : [...gamesToAdd],
+    );
     await Promise.all([game1.refetch(), game2.refetch()]);
   }
 
   const [prevGames, setPrevGames] = useState<number[]>([]);
   const [selected, setSelected] = useState(false);
   const [gameWin, setGameWin] = useState(false);
+  const [streak, setStreak] = useState(0);
 
-  const game1 = api.game.getGame.useQuery(prevGames);
+  useEffect(() => {
+    async function SetScore() {
+      if (session?.user.id) {
+        const existingScore = await utils.score.getScore.ensureData(
+          session.user.id,
+        );
+        if (existingScore !== undefined && streak > existingScore) {
+          console.log("Posting!");
+          postNewScore.mutate({ id: session?.user.id, score: streak });
+        }
+        console.log(
+          `Not Posting! Existing score: ${existingScore} -- Streak: ${streak}`,
+        );
+      }
+    }
+    void SetScore();
+  }, [streak]);
+
+  const game1 = api.game.getGame.useQuery(prevGames, {
+    refetchOnWindowFocus: false,
+    refetchInterval: false,
+  });
   const game2 = api.game.getGame.useQuery(
     game1.data?.appid ? [...prevGames, game1.data.appid] : [],
     {
@@ -90,11 +118,15 @@ export default function GameManager() {
                 void Refresh();
               }}
             >
-              Select
+              Play Again
             </p>
           </button>
         ) : null}
       </div>
+      <div className="text-5xl font-extrabold tracking-tight sm:text-[5rem]">
+        {selected && streak ? `${streak} game streak!` : null}
+      </div>
+      <div>{session ? `${session.user.id}` : "Not signed in"}</div>
     </>
   );
 }

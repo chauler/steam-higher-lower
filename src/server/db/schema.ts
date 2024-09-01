@@ -124,3 +124,15 @@ export const games = createTable("game", {
   image: text("image"),
   playerCount: integer("playerCount", { mode: "number" }).notNull(),
 });
+
+export const scores = createTable("score", {
+  userId: text("id", { length: 255 })
+    .notNull()
+    .unique()
+    .references(() => users.id),
+  score: int("score").notNull(),
+});
+
+export const scoresRelations = relations(scores, ({ one }) => ({
+  user: one(users, { fields: [scores.userId], references: [users.id] }),
+}));
