@@ -1,10 +1,14 @@
-import { api } from "@/trpc/server";
+"use client";
+import { api } from "@/trpc/react";
 
-export default async function HighScoreList() {
-  const scores = await api.score.getScores();
+export default function HighScoreList() {
+  const { data: scores } = api.score.getScores.useQuery(undefined, {
+    refetchInterval: 5000,
+  });
+
   return (
     <div className="flex min-h-screen flex-col gap-2 bg-slate-500/50">
-      {scores.length > 0
+      {scores && scores.length > 0
         ? scores.map((score, index) => {
             return (
               <div
