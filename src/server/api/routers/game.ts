@@ -53,9 +53,12 @@ export const gameRouter = createTRPCRouter({
     .query(async ({ input }) => {
       let game;
       if (input) {
-        game = await db.query.games.findFirst({
-          where: (game, { notInArray }) => notInArray(game.appid, input),
-        });
+        game = await db
+          .select()
+          .from(games)
+          .orderBy(sql`RANDOM()`)
+          .limit(1)
+          .where(notInArray(games.appid, input));
       } else {
         game = await db
           .select()
@@ -63,9 +66,6 @@ export const gameRouter = createTRPCRouter({
           .orderBy(sql`RANDOM()`)
           .limit(1);
       }
-      if (Array.isArray(game)) {
-        return game[0]!;
-      }
-      return game!;
+      return game[0] ? game[0] : undefined;
     }),
 });

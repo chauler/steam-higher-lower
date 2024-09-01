@@ -8,7 +8,7 @@ import { useState } from "react";
 export default async function Home() {
   const session = await getServerAuthSession();
   const game1 = await api.game.getGame();
-  const game2 = await api.game.getGame([game1.appid]);
+  const game2 = await api.game.getGame(game1?.appid ? [game1.appid] : []);
   console.log(game1);
   console.log(game2);
   return (
