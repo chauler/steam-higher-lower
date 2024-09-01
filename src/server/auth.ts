@@ -15,6 +15,8 @@ import {
   users,
   verificationTokens,
 } from "@/server/db/schema";
+import Discord from "next-auth/providers/discord";
+import NextAuth from "next-auth/next";
 
 /**
  * Module augmentation for `next-auth` types. Allows us to add custom properties to the `session`
@@ -59,10 +61,11 @@ export const authOptions: NextAuthOptions = {
     verificationTokensTable: verificationTokens,
   }) as Adapter,
   providers: [
-    DiscordProvider({
+    Discord({
       clientId: env.DISCORD_CLIENT_ID,
       clientSecret: env.DISCORD_CLIENT_SECRET,
     }),
+
     /**
      * ...add more providers here.
      *
