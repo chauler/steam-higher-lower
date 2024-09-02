@@ -118,7 +118,7 @@ export default function GameManager({ session }: { session: Session | null }) {
                 void Refresh();
               }}
             >
-              Play Again
+              {gameWin ? "Continue" : "Play Again"}
             </p>
           </button>
         ) : null}
