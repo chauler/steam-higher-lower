@@ -115,7 +115,7 @@ export default function GameManager({ session }: { session: Session | null }) {
       <div>
         {selected ? (
           <button
-            className="h-24 w-96 rounded-lg bg-slate-200"
+            className="h-24 w-96 rounded-lg bg-slate-200 transition-transform hover:-translate-y-0.5"
             onClick={() => {
               void Refresh();
             }}

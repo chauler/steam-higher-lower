@@ -33,7 +33,7 @@ export default function Game({
           </p>
         ) : (
           <button
-            className="h-full w-1/2 rounded-lg bg-slate-200"
+            className="h-full w-1/2 rounded-lg bg-slate-200 transition-transform hover:-translate-y-0.5"
             onClick={() => {
               handleClick(gameData.appid);
             }}
