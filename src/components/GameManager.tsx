@@ -96,7 +96,9 @@ export default function GameManager({ session }: { session: Session | null }) {
             handleClick={HandleClick}
             selected={selected}
           ></Game>
-        ) : null}
+        ) : (
+          <div className="min-h-48 min-w-96"></div>
+        )}
         <div className="self-center px-6 text-[5rem] font-bold text-slate-100 md:self-end">
           vs.
         </div>
@@ -106,7 +108,9 @@ export default function GameManager({ session }: { session: Session | null }) {
             handleClick={HandleClick}
             selected={selected}
           ></Game>
-        ) : null}
+        ) : (
+          <div className="min-h-[30rem] min-w-96"></div>
+        )}
       </div>
       <div>
         {selected ? (
