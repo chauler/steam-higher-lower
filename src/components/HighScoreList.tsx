@@ -35,14 +35,16 @@ export default function HighScoreList() {
           className="border-0 bg-gradient-to-b from-[#2e026d] to-[#15162c] text-white"
         >
           <SheetHeader>
-            <SheetTitle className="text-white">High Scores</SheetTitle>
+            <SheetTitle className="text-[2rem] text-white">
+              High Scores
+            </SheetTitle>
           </SheetHeader>
-          <div className="flex min-h-screen flex-col gap-2">
+          <div className="flex min-h-screen flex-col rounded-sm border">
             {scores && scores.length > 0
               ? scores.map((score, index) => {
                   return (
                     <div
-                      className="border-y border-white"
+                      className={`${index % 2 ? "border-slate-500/5 bg-slate-500/95" : "border-slate-500/95 bg-slate-500/5"} border-y px-2 py-4 text-xl font-semibold`}
                       key={index}
                     >{`${score.user.name}: ${score.score}`}</div>
                   );
