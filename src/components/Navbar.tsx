@@ -27,7 +27,7 @@ export default function Navbar({ session }: { session: Session | null }) {
               <NavigationMenuLink
                 className={
                   navigationMenuTriggerStyle() +
-                  " bg-[hsl(280,100%,70%)] text-black transition-transform hover:-translate-y-0.5"
+                  " bg-[#cc66ff] text-black transition-transform hover:-translate-y-0.5"
                 }
               >
                 {session ? "Sign Out" : "Sign In"}
@@ -38,7 +38,7 @@ export default function Navbar({ session }: { session: Session | null }) {
             <button
               className={
                 navigationMenuTriggerStyle() +
-                " bg-[hsl(280,100%,70%)] text-black transition-transform hover:-translate-y-0.5"
+                " bg-[#cc66ff] text-black transition-transform hover:-translate-y-0.5"
               }
               onClick={() => {
                 setIsOpen((val) => !val);
