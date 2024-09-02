@@ -75,7 +75,7 @@ export default function GameManager({ session }: { session: Session | null }) {
 
   return (
     <>
-      <h1 className="flex flex-col gap-2 text-5xl font-extrabold tracking-tight sm:text-[5rem]">
+      <h1 className="flex min-h-40 flex-col gap-2 text-5xl font-extrabold tracking-tight sm:text-[5rem]">
         {selected && gameWin ? (
           "Winrar"
         ) : selected && !gameWin ? (
@@ -89,7 +89,7 @@ export default function GameManager({ session }: { session: Session | null }) {
           </>
         )}
       </h1>
-      <div className="flex flex-row items-center justify-center">
+      <div className="flex min-w-full flex-col items-center justify-center md:flex-row">
         {game1.data && game2.data ? (
           <Game
             gameData={game1.data}
@@ -97,7 +97,7 @@ export default function GameManager({ session }: { session: Session | null }) {
             selected={selected}
           ></Game>
         ) : null}
-        <div className="self-end px-6 text-[5rem] font-bold text-slate-100">
+        <div className="self-center px-6 text-[5rem] font-bold text-slate-100 md:self-end">
           vs.
         </div>
         {game1.data && game2.data ? (
