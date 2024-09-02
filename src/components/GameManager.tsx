@@ -111,13 +111,13 @@ export default function GameManager({ session }: { session: Session | null }) {
       </div>
       <div>
         {selected ? (
-          <button className="h-24 w-96 rounded-lg bg-slate-200">
-            <p
-              className="font-semibold text-slate-800"
-              onClick={() => {
-                void Refresh();
-              }}
-            >
+          <button
+            className="h-24 w-96 rounded-lg bg-slate-200"
+            onClick={() => {
+              void Refresh();
+            }}
+          >
+            <p className="font-semibold text-slate-800">
               {gameWin ? "Continue" : "Play Again"}
             </p>
           </button>

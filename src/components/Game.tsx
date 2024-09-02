@@ -28,15 +28,13 @@ export default function Game({
       <div className="flex-grow font-semibold">
         {selected ? gameData.playerCount : null}
       </div>
-      <button className="h-1/6 w-1/2 rounded-lg bg-slate-200">
-        <p
-          className="font-semibold text-slate-800"
-          onClick={() => {
-            handleClick(gameData.appid);
-          }}
-        >
-          Select
-        </p>
+      <button
+        className="h-1/6 w-1/2 rounded-lg bg-slate-200"
+        onClick={() => {
+          handleClick(gameData.appid);
+        }}
+      >
+        <p className="font-semibold text-slate-800">Select</p>
       </button>
     </div>
   );
