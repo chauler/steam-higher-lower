@@ -26,18 +26,22 @@ export default function Game({
       </div>
       <p className="text-2xl font-semibold md:text-[2rem]">{gameData.name}</p>
       <div className="flex-grow"></div>
-      {selected ? (
-        gameData.playerCount
-      ) : (
-        <button
-          className="h-1/6 w-1/2 rounded-lg bg-slate-200"
-          onClick={() => {
-            handleClick(gameData.appid);
-          }}
-        >
-          <p className="font-semibold text-slate-800">Select</p>
-        </button>
-      )}
+      <div className="flex h-1/6 w-full items-center justify-center">
+        {selected ? (
+          <p className="w-full text-center text-2xl font-semibold text-white">
+            {gameData.playerCount} players
+          </p>
+        ) : (
+          <button
+            className="h-full w-1/2 rounded-lg bg-slate-200"
+            onClick={() => {
+              handleClick(gameData.appid);
+            }}
+          >
+            <p className="font-semibold text-slate-800">Select</p>
+          </button>
+        )}
+      </div>
     </div>
   );
 }
