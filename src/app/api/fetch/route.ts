@@ -4,6 +4,7 @@ import { db } from "@/server/db";
 import { games } from "@/server/db/schema";
 import dynamic from "next/dynamic";
 import { FetchWithRetry } from "@/util/util";
+import { env } from "@/env";
 
 const TopListData = z.object({
   response: z.object({
@@ -36,6 +37,13 @@ const PlayerCount = z.object({
 type PlayerCountType = z.infer<typeof PlayerCount>;
 
 export async function GET(request: Request) {
+  const authHeader = request.headers.get("authorization");
+  if (authHeader !== `Bearer ${env.CRON_SECRET}`) {
+    return new Response("Unauthorized", {
+      status: 401,
+    });
+  }
+
   let overallGameData;
   try {
     const res = await fetch(
