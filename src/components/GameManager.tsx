@@ -53,12 +53,8 @@ export default function GameManager({ session }: { session: Session | null }) {
           session.user.id,
         );
         if (existingScore !== undefined && streak > existingScore) {
-          console.log("Posting!");
           postNewScore.mutate({ id: session?.user.id, score: streak });
         }
-        console.log(
-          `Not Posting! Existing score: ${existingScore} -- Streak: ${streak}`,
-        );
       }
     }
     void SetScore();
@@ -126,7 +122,6 @@ export default function GameManager({ session }: { session: Session | null }) {
       <div className="text-5xl font-extrabold tracking-tight sm:text-[5rem]">
         {selected && streak ? `${streak} game streak!` : null}
       </div>
-      <div>{session ? `${session.user.id}` : "Not signed in"}</div>
     </>
   );
 }
