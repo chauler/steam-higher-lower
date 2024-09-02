@@ -75,14 +75,17 @@ export default function GameManager({ session }: { session: Session | null }) {
 
   return (
     <>
-      <h1 className="text-5xl font-extrabold tracking-tight sm:text-[5rem]">
+      <h1 className="flex flex-col gap-2 text-5xl font-extrabold tracking-tight sm:text-[5rem]">
         {selected && gameWin ? (
           "Winrar"
         ) : selected && !gameWin ? (
           "Loser"
         ) : (
           <>
-            Dead <span className="text-[hsl(280,100%,70%)]">Game</span> Game
+            <div>
+              Higher <span className="text-[hsl(280,100%,70%)]">or</span> Lower
+            </div>
+            <div className="self-center text-[3rem]">Steam Edition</div>
           </>
         )}
       </h1>

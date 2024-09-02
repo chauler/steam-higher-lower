@@ -1,7 +1,7 @@
 import { z } from "zod";
 import { createTRPCRouter, protectedProcedure, publicProcedure } from "../trpc";
 import { db } from "@/server/db";
-import { desc } from "drizzle-orm";
+import { desc, sql } from "drizzle-orm";
 import { scores } from "@/server/db/schema";
 
 export const scoreRouter = createTRPCRouter({
@@ -14,6 +14,7 @@ export const scoreRouter = createTRPCRouter({
         .onConflictDoUpdate({
           target: scores.userId,
           set: { score: score },
+          setWhere: sql`score < ${score}`,
         });
     }),
   getScore: publicProcedure.input(z.string()).query(async ({ input }) => {

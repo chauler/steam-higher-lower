@@ -51,21 +51,12 @@ export const gameRouter = createTRPCRouter({
   getGame: publicProcedure
     .input(z.number().array().optional())
     .query(async ({ input }) => {
-      let game;
-      if (input) {
-        game = await db
-          .select()
-          .from(games)
-          .orderBy(sql`RANDOM()`)
-          .limit(1)
-          .where(notInArray(games.appid, input));
-      } else {
-        game = await db
-          .select()
-          .from(games)
-          .orderBy(sql`RANDOM()`)
-          .limit(1);
-      }
+      const game = await db
+        .select()
+        .from(games)
+        .orderBy(sql`RANDOM()`)
+        .limit(1)
+        .where(notInArray(games.appid, input ? input : []));
       return game[0] ? game[0] : undefined;
     }),
 });
