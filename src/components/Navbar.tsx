@@ -44,7 +44,7 @@ export default function Navbar({ session }: { session: Session | null }) {
                 setIsOpen((val) => !val);
               }}
             >
-              High Scores
+              Leaderboard
             </button>
           </NavigationMenuItem>
         </NavigationMenuList>

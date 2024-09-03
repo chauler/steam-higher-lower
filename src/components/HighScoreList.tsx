@@ -29,7 +29,7 @@ export default function HighScoreList({
           setIsOpen(false);
         }}
         side={"left"}
-        className="border-0 bg-gradient-to-b from-[#2e026d] to-[#15162c] text-white md:min-w-96 md:max-w-[25%]"
+        className="border-0 bg-gradient-to-b from-[#2e026d] to-[#15162c] text-white md:min-w-96 md:max-w-[400px]"
       >
         <SheetHeader>
           <SheetTitle className="text-[2rem] text-white">
