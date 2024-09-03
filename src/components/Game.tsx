@@ -13,11 +13,11 @@ export default function Game({
   handleClick: (arg0: number) => unknown;
 }) {
   return (
-    <div className="flex h-48 min-h-48 w-1/3 min-w-96 flex-col items-center rounded-lg bg-slate-500/50 p-2 text-white md:h-[30rem]">
+    <div className="flex h-96 min-h-48 w-1/3 min-w-96 flex-col items-center rounded-lg bg-slate-500/50 p-2 text-white md:h-[30rem]">
       <div className="relative w-full min-w-min max-w-full flex-grow rounded-lg">
         {gameData.image ? (
           <Image
-            className="rounded-lg object-contain"
+            className="rounded-lg object-cover"
             src={gameData.image}
             alt={""}
             fill={true}
