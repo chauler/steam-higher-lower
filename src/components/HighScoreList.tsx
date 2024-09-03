@@ -36,12 +36,12 @@ export default function HighScoreList({
             High Scores
           </SheetTitle>
         </SheetHeader>
-        <div className="flex min-h-screen w-96 max-w-full flex-col rounded-sm border">
+        <div className="flex min-h-screen w-96 max-w-full flex-col rounded-sm">
           {scores && scores.length > 0
             ? scores.map((score, index) => {
                 return (
                   <div
-                    className={`${session && session.user.id === score.userId ? "bg-slate-500/95" : "bg-slate-500/5"} flex items-center gap-2 border-y px-2 py-4 text-xl font-semibold`}
+                    className={`${session && session.user.id === score.userId ? "bg-slate-500/95" : "bg-slate-500/5"} flex items-center gap-2 border-x-[1px] border-y-[0.5px] px-2 py-4 text-xl font-semibold`}
                     key={index}
                   >
                     {score.user.image ? (
