@@ -1,10 +1,9 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Game from "./Game";
 import { api } from "@/trpc/react";
 import type { Session } from "next-auth";
-import { skipToken } from "@tanstack/react-query";
 
 export type GameData = {
   name: string;
@@ -38,13 +37,45 @@ export default function GameManager({ session }: { session: Session | null }) {
     setPrevGames(
       prevGames.length < 20 ? [...prevGames, ...gamesToAdd] : [...gamesToAdd],
     );
-    await Promise.all([game1.refetch(), game2.refetch()]);
+    await utils.game.getGame.ensureData(prevGames);
+    await utils.game.getGame.ensureData(
+      nextGame1.data?.appid ? [...prevGames, nextGame1.data.appid] : [],
+    );
+    setGame1(
+      nextGame1.data ? { data: { ...nextGame1.data } } : { data: undefined },
+    );
+    setGame2(
+      nextGame2.data ? { data: { ...nextGame2.data } } : { data: undefined },
+    );
+    void Promise.all([nextGame1.refetch(), nextGame2.refetch()]);
   }
 
   const [prevGames, setPrevGames] = useState<number[]>([]);
   const [selected, setSelected] = useState(false);
+  const [refresh, setRefresh] = useState(true);
   const [gameWin, setGameWin] = useState(false);
   const [streak, setStreak] = useState(0);
+
+  const [game1, setGame1] = useState<{
+    data:
+      | {
+          name: string;
+          image: string | null;
+          appid: number;
+          playerCount: number;
+        }
+      | undefined;
+  }>({ data: undefined });
+  const [game2, setGame2] = useState<{
+    data:
+      | {
+          name: string;
+          image: string | null;
+          appid: number;
+          playerCount: number;
+        }
+      | undefined;
+  }>({ data: undefined });
 
   useEffect(() => {
     async function SetScore() {
@@ -60,18 +91,44 @@ export default function GameManager({ session }: { session: Session | null }) {
     void SetScore();
   }, [streak]);
 
-  const game1 = api.game.getGame.useQuery(prevGames, {
+  const nextGame1 = api.game.getGame.useQuery(prevGames, {
     refetchOnWindowFocus: false,
     refetchInterval: false,
   });
-  const game2 = api.game.getGame.useQuery(
-    game1.data?.appid ? [...prevGames, game1.data.appid] : [],
+  const nextGame2 = api.game.getGame.useQuery(
+    nextGame1.data?.appid ? [...prevGames, nextGame1.data.appid] : [],
     {
-      enabled: !!game1.data,
+      enabled: !!nextGame1.data,
       refetchOnWindowFocus: false,
       refetchInterval: false,
     },
   );
+
+  useEffect(() => {
+    async function SetUpGames() {
+      if (nextGame1.data && nextGame2.data) {
+        setGame1({
+          data: {
+            ...nextGame1.data,
+          },
+        });
+        setGame2({ data: { ...nextGame2.data } });
+      }
+      let gamesToAdd: number[] = [];
+      if (nextGame1.data?.appid && nextGame2.data?.appid) {
+        gamesToAdd = [nextGame1.data?.appid, nextGame2.data?.appid];
+      }
+      setPrevGames(
+        prevGames.length < 20 ? [...prevGames, ...gamesToAdd] : [...gamesToAdd],
+      );
+      setSelected(false);
+    }
+
+    if (refresh && nextGame1.isSuccess && nextGame2.isSuccess) {
+      setRefresh(false);
+      void SetUpGames();
+    }
+  }, [refresh, nextGame1.isFetching, nextGame2.isFetching]);
 
   return (
     <>
@@ -117,7 +174,7 @@ export default function GameManager({ session }: { session: Session | null }) {
           <button
             className="h-24 w-96 rounded-lg bg-slate-200 transition-transform hover:-translate-y-0.5"
             onClick={() => {
-              void Refresh();
+              setRefresh(true);
             }}
           >
             <p className="font-semibold text-slate-800">

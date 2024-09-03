@@ -57,6 +57,7 @@ export const gameRouter = createTRPCRouter({
         .orderBy(sql`RANDOM()`)
         .limit(1)
         .where(notInArray(games.appid, input ? input : []));
+      console.log(`GETTING GAME -- ${input ? input.toString() : ""}`);
       return game[0] ? game[0] : undefined;
     }),
 });
