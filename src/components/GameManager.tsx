@@ -172,12 +172,12 @@ export default function GameManager({ session }: { session: Session | null }) {
       <div>
         {selected ? (
           <button
-            className="h-24 w-96 rounded-lg bg-slate-200 transition-transform hover:-translate-y-0.5"
+            className="h-24 w-96 rounded-lg bg-slate-200 transition hover:-translate-y-0.5 active:scale-[1.02]"
             onClick={() => {
               setRefresh(true);
             }}
           >
-            <p className="font-semibold text-slate-800">
+            <p className="text-3xl font-bold text-slate-800">
               {gameWin ? "Continue" : "Play Again"}
             </p>
           </button>

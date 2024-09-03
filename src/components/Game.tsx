@@ -37,12 +37,12 @@ export default function Game({
           </p>
         ) : (
           <button
-            className="h-full w-1/2 rounded-lg bg-slate-200 transition-transform hover:-translate-y-0.5"
+            className="h-full w-1/2 rounded-lg bg-slate-200 transition hover:-translate-y-0.5 active:scale-[1.02]"
             onClick={() => {
               handleClick(gameData.appid);
             }}
           >
-            <p className="font-semibold text-slate-800">Select</p>
+            <p className="text-3xl font-bold text-slate-900">Select</p>
           </button>
         )}
       </div>
