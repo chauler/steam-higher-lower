@@ -21,10 +21,13 @@ export default function Game({
             src={gameData.image}
             alt={""}
             fill={true}
+            priority={true}
           />
         ) : null}
       </div>
-      <p className="text-2xl font-semibold md:text-[2rem]">{gameData.name}</p>
+      <p className="min-w-0 max-w-full flex-shrink flex-grow-0 truncate text-center text-2xl font-semibold md:text-[2rem]">
+        {gameData.name}
+      </p>
       <div className="flex-grow"></div>
       <div className="flex h-1/6 w-full items-center justify-center">
         {selected ? (

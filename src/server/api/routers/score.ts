@@ -34,6 +34,7 @@ export const scoreRouter = createTRPCRouter({
         user: {
           columns: {
             name: true,
+            image: true,
           },
         },
       },

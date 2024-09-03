@@ -19,7 +19,7 @@ export default function Navbar({ session }: { session: Session | null }) {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <div className="h-max w-screen min-w-full bg-[#0a000d]/20">
+    <div className="h-max w-screen min-w-full">
       <NavigationMenu>
         <NavigationMenuList>
           <NavigationMenuItem>
@@ -27,7 +27,7 @@ export default function Navbar({ session }: { session: Session | null }) {
               <NavigationMenuLink
                 className={
                   navigationMenuTriggerStyle() +
-                  " bg-[#cc66ff] text-black transition-transform hover:-translate-y-0.5"
+                  " bg-transparent text-slate-100 transition-transform hover:-translate-y-0.5"
                 }
               >
                 {session ? "Sign Out" : "Sign In"}
@@ -38,7 +38,7 @@ export default function Navbar({ session }: { session: Session | null }) {
             <button
               className={
                 navigationMenuTriggerStyle() +
-                " bg-[#cc66ff] text-black transition-transform hover:-translate-y-0.5"
+                " bg-transparent text-white transition-transform hover:-translate-y-0.5"
               }
               onClick={() => {
                 setIsOpen((val) => !val);
@@ -49,7 +49,11 @@ export default function Navbar({ session }: { session: Session | null }) {
           </NavigationMenuItem>
         </NavigationMenuList>
       </NavigationMenu>
-      <HighScoreList open={isOpen} setIsOpen={setIsOpen}></HighScoreList>
+      <HighScoreList
+        open={isOpen}
+        setIsOpen={setIsOpen}
+        session={session}
+      ></HighScoreList>
     </div>
   );
 }

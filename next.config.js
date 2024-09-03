@@ -9,6 +9,7 @@ const config = {
   images: {
     remotePatterns: [
       { protocol: "https", hostname: "shared.akamai.steamstatic.com" },
+      { protocol: "https", hostname: "cdn.discordapp.com" },
     ],
   },
 };
