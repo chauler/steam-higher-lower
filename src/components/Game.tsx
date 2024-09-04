@@ -1,6 +1,6 @@
 "use client";
 
-import { GameDataType } from "@/server/api/routers/game";
+import type { GameData } from "./GameManager";
 import Image from "next/image";
 
 export default function Game({
@@ -8,7 +8,7 @@ export default function Game({
   selected,
   handleClick,
 }: {
-  gameData: GameDataType;
+  gameData: GameData;
   selected: boolean;
   handleClick: (arg0: number) => unknown;
 }) {
@@ -22,8 +22,6 @@ export default function Game({
             alt={""}
             fill={true}
             priority={true}
-            placeholder="blur"
-            blurDataURL={gameData.placeholder ?? undefined}
           />
         ) : null}
       </div>
