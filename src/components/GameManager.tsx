@@ -4,7 +4,13 @@ import { useEffect, useRef, useState } from "react";
 import Game from "./Game";
 import { api } from "@/trpc/react";
 import type { Session } from "next-auth";
-import { GameDataType } from "@/server/api/routers/game";
+
+export type GameData = {
+  name: string;
+  image: string | null;
+  appid: number;
+  playerCount: number;
+};
 
 export default function GameManager({ session }: { session: Session | null }) {
   const postNewScore = api.score.postScore.useMutation();
@@ -51,10 +57,24 @@ export default function GameManager({ session }: { session: Session | null }) {
   const [streak, setStreak] = useState(0);
 
   const [game1, setGame1] = useState<{
-    data: GameDataType | undefined;
+    data:
+      | {
+          name: string;
+          image: string | null;
+          appid: number;
+          playerCount: number;
+        }
+      | undefined;
   }>({ data: undefined });
   const [game2, setGame2] = useState<{
-    data: GameDataType | undefined;
+    data:
+      | {
+          name: string;
+          image: string | null;
+          appid: number;
+          playerCount: number;
+        }
+      | undefined;
   }>({ data: undefined });
 
   useEffect(() => {
