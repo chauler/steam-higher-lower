@@ -1,14 +1,13 @@
 "use client";
-
-import type { GameData } from "./GameManager";
 import Image from "next/image";
+import { GameDataType } from "@/server/api/routers/game";
 
 export default function Game({
   gameData,
   selected,
   handleClick,
 }: {
-  gameData: GameData;
+  gameData: GameDataType;
   selected: boolean;
   handleClick: (arg0: number) => unknown;
 }) {
