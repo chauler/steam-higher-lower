@@ -5,6 +5,7 @@ import Game from "./Game";
 import { api } from "@/trpc/react";
 import type { Session } from "next-auth";
 import { GameDataType } from "@/server/api/routers/game";
+import Image from "next/image";
 
 export default function GameManager({ session }: { session: Session | null }) {
   const postNewScore = api.score.postScore.useMutation();
@@ -166,6 +167,24 @@ export default function GameManager({ session }: { session: Session | null }) {
       <div className="text-5xl font-extrabold tracking-tight sm:text-[5rem]">
         {selected && streak ? `${streak} game streak!` : null}
       </div>
+      {nextGame1.data?.image ? (
+        <Image
+          alt=""
+          src={nextGame1.data.image}
+          quality={100}
+          fill={true}
+          hidden={true}
+        ></Image>
+      ) : null}
+      {nextGame2.data?.image ? (
+        <Image
+          alt=""
+          src={nextGame2.data.image}
+          quality={100}
+          fill={true}
+          hidden={true}
+        ></Image>
+      ) : null}
     </>
   );
 }
