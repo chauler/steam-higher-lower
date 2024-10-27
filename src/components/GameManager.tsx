@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import Game from "./Game";
 import { api } from "@/trpc/react";
 import type { Session } from "next-auth";
@@ -50,6 +50,7 @@ export default function GameManager({ session }: { session: Session | null }) {
   const [refresh, setRefresh] = useState(true);
   const [gameWin, setGameWin] = useState(false);
   const [streak, setStreak] = useState(0);
+  const [gamesReady, setGamesReady] = useState([0, 0]);
 
   const [game1, setGame1] = useState<{
     data: GameDataType | undefined;
@@ -108,6 +109,14 @@ export default function GameManager({ session }: { session: Session | null }) {
     if (refresh && nextGame1.isSuccess && nextGame2.isSuccess) {
       setRefresh(false);
       void SetUpGames();
+    }
+
+    if (nextGame1.isSuccess) {
+      void fetch(nextGame1.data?.image ?? "");
+    }
+
+    if (nextGame2.isSuccess) {
+      void fetch(nextGame2.data?.image ?? "");
     }
   }, [refresh, nextGame1.isFetching, nextGame2.isFetching]);
 
