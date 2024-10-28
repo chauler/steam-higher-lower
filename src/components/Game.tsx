@@ -18,10 +18,10 @@ export default function Game({
           <Image
             className="rounded-lg object-cover"
             src={gameData.image}
-            overrideSrc={gameData.image}
             alt={""}
             fill={true}
             priority={true}
+            unoptimized
           />
         ) : null}
       </div>
